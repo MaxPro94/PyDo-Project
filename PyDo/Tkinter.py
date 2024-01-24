@@ -98,7 +98,7 @@ def afficher_taches():
         result_text.config(state="disabled")
 
 def modification_tache():
-    modif_nom_tache_bouton = Button(window, text="Modifier le nom")
+    modif_nom_tache_bouton = Button(window, text="Modifier le nom", command=modif_nom_tache(mydb, window))
     modif_nom_tache_bouton.pack(side="bottom", padx=5, pady=10)
     modif_statut_tache_bouton = Button(window, text="Modifier le nom")
     modif_statut_tache_bouton.pack(side="bottom", padx=5, pady=10)
@@ -106,6 +106,30 @@ def modification_tache():
     modif_date_obje_tache_bouton.pack(side="bottom", padx=5, pady=10)
     modif_date_real_tache_bouton = Button(window, text="Modifier la date de réalisation")
     modif_date_real_tache_bouton.pack(side="bottom", padx=5, pady=10)
+
+def modif_nom_tache(mydb, window):
+     # Création d'un curseur pour exécuter des requêtes SQL
+    mycursor = mydb.cursor(dictionary=True)
+    mycursor.execute("SELECT * FROM taches")
+    taches_liste = mycursor.fetchall()
+
+    # Création d'une Listbox pour afficher les tâches
+    listbox = Tk.Listbox(window)
+    listbox.pack(pady=10)
+
+    # Ajout des tâches à la Listbox
+    for tache in taches_liste:
+        listbox.insert(Tk.END, tache['nom_tache'])  # Assurez-vous d'ajuster la clé selon la structure de votre table
+    
+    # mycursor = mydb.cursor(dictionary=True)
+    # id_select = input("Veuillez entrez l'ID de la tache a modifier :")
+    # new_nom = input("Veuillez entrer le nouveau nom de la tache :")
+    # update_query = "UPDATE taches SET nom_tache = %s WHERE Id_TACHES = %s"
+    # update_query_data = (id_select, new_nom)
+    # mycursor.execute(update_query, update_query_data)
+    # mydb.commit()
+
+
     
 creation_tache_button = Button(window, text="Créé une tâche", command=ajouter_une_tache)
 creation_tache_button.pack(side="left", padx=5, pady=5)
